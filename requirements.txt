@@ -7,3 +7,4 @@ setuptools==65.5.1
 sqlparse==0.4.4
 typing-extensions==4.8.0
 wheel==0.38.4
+djangorestframework~=3.14.0
