@@ -8,3 +8,4 @@ sqlparse==0.4.4
 typing-extensions==4.8.0
 wheel==0.38.4
 djangorestframework~=3.14.0
+djangorestframework-simplejwt==5.3.1

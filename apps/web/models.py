@@ -5,7 +5,7 @@ from config import settings
 
 
 class CustomUser(AbstractUser):
-    username = models.CharField(unique=True)
+    username = models.CharField(unique=True, max_length=255)
     email = models.EmailField(unique=True)
     role = models.CharField(max_length=30, blank=True)
 
@@ -41,14 +41,17 @@ class Profile(models.Model):
 class Product(models.Model):
     description = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
-    quantity = models.IntegerField(max_length=255)
-    retail_price = models.DecimalField(max_digits=255)
-    wholesale_price = models.DecimalField(max_digits=255, decimal_places=5)
+    quantity = models.IntegerField()
+    retail_price = models.DecimalField(max_digits=255, decimal_places=2)
+    wholesale_price = models.DecimalField(max_digits=255, decimal_places=2)
 
 
 class WatchList(models.Model):
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='watched_users')
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='watched_products')
+
+    class Meta:
+        unique_together = ('user_id', 'product_id')
 
 
 class Permission(models.Model):
@@ -63,8 +66,8 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    purchase_price = models.DecimalField(max_digits=255)
-    quantity = models.IntegerField(max_length=255)
-    wholesale_price = models.DecimalField(max_length=255)
+    purchase_price = models.DecimalField(max_digits=255, decimal_places=2)
+    quantity = models.IntegerField()
+    wholesale_price = models.DecimalField(decimal_places=2, max_digits=255)
     order_id = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='orderitem_order')
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='orderitem_product')
